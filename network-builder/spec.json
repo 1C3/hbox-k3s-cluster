@@ -1,0 +1,26 @@
+{
+  "STUBS_NETWORK": "10.90.0.0/24",
+  "WG_NETWORK": "10.90.1.0/24",
+  "PORT_RANGE": "5100-5199",
+  "WG_OPTIONS": [
+    "Table = off",
+    "MTU = 1420"
+    ],
+  "HOSTS": {
+    "hbox1": {
+      "ENDPOINT": null
+    },
+    "hbox2": {
+      "ENDPOINT": null
+    },
+    "hbox3": {
+      "ENDPOINT": null
+    },
+    "gw1": {
+      "ENDPOINT": "gw1.ic3.systems"
+    },
+    "gw2": {
+      "ENDPOINT": "gw2.ic3.systems"
+    }
+  }
+}
