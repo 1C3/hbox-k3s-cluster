@@ -162,7 +162,7 @@ emerge --config gentoo-kernel-bin
 
 ### efistub setup
 
-- delete windows boot entry, create uki boot entry
+- delete existing boot entries, create uki boot entry
 ```
 for i in $(efibootmgr | grep -E -o "^Boot[0-9]{4}" | cut -c 5-8);
     do efibootmgr -b $i -B -q;
@@ -289,6 +289,7 @@ UKI_SECONDARY=$( ls -t1 /efi/EFI/Linux/ | head -n2 | tail -n1 )
 
 efibootmgr --create --disk /dev/sda --label "Gentoo Primary EFI Stub UKI" --loader "\EFI\Linux\\${UKI_PRIMARY}" -q
 efibootmgr --create --disk /dev/sda --label "Gentoo Secondary EFI Stub UKI" --loader "\EFI\Linux\\${UKI_SECONDARY}" -q
+efibootmgr -o 0000,0001
 
 efibootmgr
 EOF
