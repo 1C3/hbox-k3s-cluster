@@ -52,7 +52,9 @@ arch-chroot /mnt/gentoo
 - edit **etc/portage/make.conf** of the new system:
 ```
 cat <<EOF > /etc/portage/make.conf
-COMMON_FLAGS="-march=native -O2 -pipe"
+GENTOO_MIRRORS="https://gentoo.mirror.garr.it http://distfiles.gentoo.org"
+
+COMMON_FLAGS="-march=native -O3 -flto -pipe -falign-functions=32 -fno-semantic-interposition"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
@@ -60,15 +62,44 @@ FFLAGS="${COMMON_FLAGS}"
 GOAMD64="v3"
 CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 ssse3 vpclmulqdq"
 
-MAKEOPTS="-j4 -l4"
+MAKEOPTS="-j2 -l2"
+FEATURES="binpkg-request-signature"
 
 LC_MESSAGES=C.utf8
 ACCEPT_LICENSE="*"
 VIDEO_CARDS="intel"
+USE="lto"
 EOF
 ```
 
-- edit package.use:
+- edit **/etc/portage/binrepos.conf/gentoobinhost.conf**:
+```
+cat <<EOF > /etc/portage/binrepos.conf/gentoobinhost.conf
+[garr]
+priority = 10
+sync-uri = https://gentoo.mirror.garr.it/releases/amd64/binpackages/23.0/x86-64-v3
+
+[gentoo-cdn]
+priority = 1
+sync-uri = https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64-v3
+EOF
+```
+
+- add **package.env**:
+```
+mkdir -p /etc/portage/env
+
+cat <<EOF > /etc/portage/env/binpkg
+FEATURES="getbinpkg binpkg-request-signature"
+USE="-lto"
+EOF
+
+cat <<EOF > /etc/portage/package.env
+sys-devel/gcc binpkg
+EOF
+```
+
+- edit **package.use**:
 ```
 rm -r /etc/portage/package.use/
 cat <<EOF >> /etc/portage/package.use
@@ -78,9 +109,11 @@ net-wireless/iwd standalone -systemd
 EOF
 ```
 
-- install packages:
+- update gentoo trusted keys and install packages:
 ```
 emerge-webrsync
+getuto
+emerge -1 -g gcc
 emerge -quDN @world htop gentoo-kernel-bin linux-firmware intel-microcode sbctl efibootmgr iwd tpm2-tools frr wireguard-tools telnet-bsd
 ```
 
