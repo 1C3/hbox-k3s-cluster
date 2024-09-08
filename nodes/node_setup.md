@@ -287,9 +287,9 @@ efibootmgr -O -q
 UKI_PRIMARY=\$( ls -t1 /efi/EFI/Linux/ | head -n1 )
 UKI_SECONDARY=\$( ls -t1 /efi/EFI/Linux/ | head -n2 | tail -n1 )
 
-efibootmgr --create --disk /dev/sda --label "Gentoo Primary EFI Stub UKI" --loader "\EFI\Linux\\\\\${UKI_PRIMARY}" -q
 efibootmgr --create --disk /dev/sda --label "Gentoo Secondary EFI Stub UKI" --loader "\EFI\Linux\\\\\${UKI_SECONDARY}" -q
-efibootmgr -o 0000,0001
+efibootmgr --create --disk /dev/sda --label "Gentoo Primary EFI Stub UKI" --loader "\EFI\Linux\\\\\${UKI_PRIMARY}" -q
+efibootmgr -o 0001,0000
 EOF
 
 chmod 700 /boot/kupdate.sh
