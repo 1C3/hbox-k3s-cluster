@@ -1,6 +1,6 @@
 #### Setup information for my k3s cluster
 
-This repo is not meant as a tutorial, but it's open in case someone wants to take a look at the configs to help build their own thing.
+*This repo is not meant as a tutorial, but it's open in case someone wants to take a look at the configs to help build their own thing.*
 
 The main objective for this cluster was to make the nodes easy to distribute geographically on different home networks, without requiring any additional configuration.
 The secure boot chain, full disk encryption and firewall rules ensure that data on the nodes is reasonably safe even if they are not in a physically secure location.
