@@ -64,6 +64,7 @@ sysctl -p
 ```
 iptables -I INPUT -i wg+ -j ACCEPT
 iptables -I INPUT -i ens+ -p udp -m udp --dport 5100:5199 -j ACCEPT
+iptables -I INPUT -i ens+ -p tcp --match multiport --dport 2221:2223 -j ACCEPT
 iptables -I FORWARD -i wg+ -j ACCEPT
 iptables -P FORWARD DROP
 iptables-save > /etc/iptables/rules.v4
