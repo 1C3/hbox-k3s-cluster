@@ -164,7 +164,9 @@ emerge --config gentoo-kernel-bin
 
 - delete windows boot entry, create uki boot entry
 ```
-efibootmgr -B -b 0
+for i in $(efibootmgr | grep -E -o "^Boot[0-9]{4}" | cut -c 5-8);
+    do efibootmgr -b $i -B -q;
+done
 UKI_PRIMARY=$( ls -t1 /efi/EFI/Linux/ | head -n1 )
 efibootmgr --create --disk /dev/sda --label "Gentoo Primary EFI Stub UKI" --loader "\EFI\Linux\\${UKI_PRIMARY}"
 ```
@@ -277,13 +279,18 @@ emerge --config gentoo-kernel-bin
 cat <<EOF > /boot/kupdate.sh
 #!/bin/bash
 
-efibootmgr -B -b 0
-efibootmgr -B -b 1
+for i in $(efibootmgr | grep -E -o "^Boot[0-9]{4}" | cut -c 5-8);
+    do efibootmgr -b $i -B -q;
+done
+efibootmgr -O -q
+
 UKI_PRIMARY=$( ls -t1 /efi/EFI/Linux/ | head -n1 )
 UKI_SECONDARY=$( ls -t1 /efi/EFI/Linux/ | head -n2 | tail -n1 )
 
-efibootmgr --create --disk /dev/sda --label "Gentoo Primary EFI Stub UKI" --loader "\EFI\Linux\\${UKI_PRIMARY}"
-efibootmgr --create --disk /dev/sda --label "Gentoo Secondary EFI Stub UKI" --loader "\EFI\Linux\\${UKI_SECONDARY}"
+efibootmgr --create --disk /dev/sda --label "Gentoo Primary EFI Stub UKI" --loader "\EFI\Linux\\${UKI_PRIMARY}" -q
+efibootmgr --create --disk /dev/sda --label "Gentoo Secondary EFI Stub UKI" --loader "\EFI\Linux\\${UKI_SECONDARY}" -q
+
+efibootmgr
 EOF
 
 chmod 700 /boot/kupdate.sh
