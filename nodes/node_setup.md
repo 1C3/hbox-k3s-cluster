@@ -55,10 +55,10 @@ cat <<EOF > /etc/portage/make.conf
 GENTOO_MIRRORS="https://gentoo.mirror.garr.it http://distfiles.gentoo.org"
 
 COMMON_FLAGS="-march=native -O3 -flto -pipe -falign-functions=32 -fno-semantic-interposition"
-CFLAGS="${COMMON_FLAGS}"
-CXXFLAGS="${COMMON_FLAGS}"
-FCFLAGS="${COMMON_FLAGS}"
-FFLAGS="${COMMON_FLAGS}"
+CFLAGS="\${COMMON_FLAGS}"
+CXXFLAGS="\${COMMON_FLAGS}"
+FCFLAGS="\${COMMON_FLAGS}"
+FFLAGS="\${COMMON_FLAGS}"
 GOAMD64="v3"
 CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 ssse3 vpclmulqdq"
 
