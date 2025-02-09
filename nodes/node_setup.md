@@ -317,20 +317,20 @@ After=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/sh -c '\
-    iptables -P INPUT DROP; \
-    iptables -I INPUT -i lo -j ACCEPT; \
-    iptables -I INPUT -i wg+ -j ACCEPT; \
-    iptables -I INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; \
-    iptables -I INPUT -p tcp --dport 22 -j ACCEPT; \
+ExecStart=/bin/sh -c '\\
+    iptables -P INPUT DROP; \\
+    iptables -I INPUT -i lo -j ACCEPT; \\
+    iptables -I INPUT -i wg+ -j ACCEPT; \\
+    iptables -I INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; \\
+    iptables -I INPUT -p tcp --dport 22 -j ACCEPT; \\
     iptables -I INPUT -p icmp --icmp-type 8 -j ACCEPT'
 
-ExecStop=/bin/sh -c '\
-    iptables -P INPUT ACCEPT; \
-    iptables -D INPUT -i lo -j ACCEPT; \
-    iptables -D INPUT -i wg+ -j ACCEPT; \
-    iptables -D INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; \
-    iptables -D INPUT -p tcp --dport 22 -j ACCEPT; \
+ExecStop=/bin/sh -c '\\
+    iptables -P INPUT ACCEPT; \\
+    iptables -D INPUT -i lo -j ACCEPT; \\
+    iptables -D INPUT -i wg+ -j ACCEPT; \\
+    iptables -D INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; \\
+    iptables -D INPUT -p tcp --dport 22 -j ACCEPT; \\
     iptables -D INPUT -p icmp --icmp-type 8 -j ACCEPT'
 
 [Install]
