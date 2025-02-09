@@ -54,7 +54,7 @@ arch-chroot /mnt/gentoo
 cat <<EOF > /etc/portage/make.conf
 GENTOO_MIRRORS="https://gentoo.mirror.garr.it http://distfiles.gentoo.org"
 
-COMMON_FLAGS="-march=native -O3 -flto -pipe -falign-functions=32 -fno-semantic-interposition"
+COMMON_FLAGS="-march=native -Os -flto -pipe"
 CFLAGS="\${COMMON_FLAGS}"
 CXXFLAGS="\${COMMON_FLAGS}"
 FCFLAGS="\${COMMON_FLAGS}"
@@ -62,7 +62,7 @@ FFLAGS="\${COMMON_FLAGS}"
 GOAMD64="v3"
 CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 ssse3 vpclmulqdq"
 
-MAKEOPTS="-j2 -l2"
+MAKEOPTS="-j4 -l4"
 FEATURES="binpkg-request-signature"
 
 LC_MESSAGES=C.utf8
@@ -130,11 +130,10 @@ LUKS_ID=$( blkid | grep /dev/sda2 | sed -r 's/.* UUID="(\S*)".*/\1/' )
 ROOT_ID=$( blkid | grep /dev/mapper/root | sed -r 's/.* UUID="(\S*)".*/\1/' )
 
 cat <<EOF > /etc/dracut.conf
-add_dracutmodules+=" crypt tpm2-tss "
+add_dracutmodules+=" systemd-cryptsetup tpm2-tss "
 kernel_cmdline="root=UUID=$ROOT_ID rd.luks.uuid=$LUKS_ID"
 use_fstab="yes"
 early_microcode="yes"
-add_drivers+=" i915 "
 #hostonly="yes"
 EOF
 ```
