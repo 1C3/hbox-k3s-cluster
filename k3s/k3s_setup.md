@@ -16,8 +16,8 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=<TOKEN> sh -s - server \
 --disable traefik \
 --disable local-storage \
 --disable servicelb \
---etcd-arg heartbeat-interval=500 \
---etcd-arg election-timeout=5000
+--etcd-arg heartbeat-interval=300 \
+--etcd-arg election-timeout=24000
 ```
 
 #### on other nodes
@@ -38,8 +38,8 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=<TOKEN> sh -s - server \
 --disable traefik \
 --disable local-storage \
 --disable servicelb \
---etcd-arg heartbeat-interval=500 \
---etcd-arg election-timeout=5000
+--etcd-arg heartbeat-interval=300 \
+--etcd-arg election-timeout=24000
 ```
 
 ```
@@ -58,7 +58,7 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=<TOKEN> sh -s - server \
 --disable traefik \
 --disable local-storage \
 --disable servicelb \
---etcd-arg heartbeat-interval=500 \
---etcd-arg election-timeout=5000
+--etcd-arg heartbeat-interval=300 \
+--etcd-arg election-timeout=24000
 ```
 
