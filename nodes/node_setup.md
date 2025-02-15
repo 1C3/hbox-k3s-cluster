@@ -312,7 +312,6 @@ ssh-copy-id -i hbox root@<IP>
 cat <<EOF > /etc/systemd/system/wg-rules.service
 [Unit]
 Description=iptables rules to drop most input not coming from wg* interfaces
-After=network.target
 
 [Service]
 Type=oneshot
@@ -334,7 +333,7 @@ ExecStop=/bin/sh -c '\\
     iptables -D INPUT -p icmp --icmp-type 8 -j ACCEPT'
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=network-pre.target
 EOF
 ```
 
