@@ -1,0 +1,14 @@
+FROM registry.fedoraproject.org/fedora-minimal:latest
+RUN microdnf install -y java-21-openjdk-headless && \
+    microdnf clean all
+
+WORKDIR /data
+RUN mkdir -p /data/world
+COPY server.properties .
+COPY eula.txt .
+
+# server version 1.21.4
+RUN curl -o server.jar https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
+
+EXPOSE 25565
+CMD java -Xmx4G -Xms4G -XX:+UseTransparentHugePages -jar server.jar nogui
